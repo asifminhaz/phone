@@ -19,13 +19,13 @@ const displaySearchResult = phones => {
         div.classList.add('col');
         div.innerHTML = `
         <div class="card h-100">
-                <img  src="${phone.image}" class="card-img-top" alt="...">
+                <img src="${phone.image}" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">${phone.brand}</h5>
                     <h5>${phone.phone_name}</h5>
-                    <h5>${phone.slug}</h5>
+                    
                     <p class="card-text"></p>
-                    <button onclick="exploreDetails()">Details</button>
+                    <button onclick="exploreDetails('${phone.slug}')">Details</button>
                 </div>
             </div>
         `;
@@ -33,33 +33,34 @@ const displaySearchResult = phones => {
     })
 };
 
-const exploreDetails = () => {
-}
-
-const loadPhoneDetails = (phoneId) => {
-    const url = ` https://openapi.programming-hero.com/api/phone/$'{phoneId}'`
+const exploreDetails = slug => {
+    const url = ` https://openapi.programming-hero.com/api/phone/${slug}`
     fetch(url)
         .then(res => res.json())
-        .then(data => displayPhoneDetail(data))
+        .then(data => displayPhoneDetail(data.data))
 
-}
+};
 
 const displayPhoneDetail = data => {
     console.log(data);
     const PhoneDetails = document.getElementById('phone-details');
+    PhoneDetails.textContent = '';
     const div = document.createElement('div');
     div.classList.add('card');
     div.innerHTML = `
         <div class="card-body">
           <h5 class="card-title">${data.name}</h5>
-          <h5>${data.releaseDate}</h5>
-          <h5>${data.mainFeatures.chipSet}</h5>
-          <h5>${data.mainFeatures.memory}</h5>
-          <h5>${data.mainFeatures.displaySize}</h5>
-          <p class="card-text">${data.slug}</p>
-         
+          <p class="card-text">ReleaseDate:${data.releaseDate}</p>
+          <p class="card-text">Main Features:${data.mainFeatures.chipSet}</p>
+          <p class="card-text">Memory:${data.mainFeatures.memory}</p>
+          <p class="card-text">DisplaySize:${data.mainFeatures.displaySize}</p>
+          <p class="card-text">Sensors:${data.mainFeatures.sensors}</p>
+          <p class="card-text">Sensors:${data.mainFeatures.storage}</p>
+          <p class="card-text">Sensors:${data.mainFeatures.others}</p>
+          <p class="card-text">Sensors:${data.mainFeatures.slug}</p>
          </div>
 
     `;
     PhoneDetails.appendChild(div);
-}
+    console.log(data.name);
+};
