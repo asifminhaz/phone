@@ -3,18 +3,20 @@ const searchPhone = () => {
     const searchText = searchField.value;
     // console.log(searchText);
 
+
     searchField.value = '';
 
     const url = ` https://openapi.programming-hero.com/api/phones?search=${searchText}`
     fetch(url)
         .then(res => res.json())
-        .then(data => displaySearchResult(data));
+        .then(data => displaySearchResult(data.data));
 }
 
 const displaySearchResult = phones => {
+    const phone = phones.slice(0, 20)
     const SearchResult = document.getElementById('search-result');
-    phones.data.forEach(phone => {
-        console.log(phones.data);
+    phone.forEach(phone => {
+        console.log(phone);
         const div = document.createElement('div');
         div.classList.add('col');
         div.innerHTML = `
@@ -49,6 +51,7 @@ const displayPhoneDetail = data => {
     div.classList.add('card');
     div.innerHTML = `
         <div class="card-body">
+        <img src="${data.image}" class="card-img-top" alt="...">
           <h5 class="card-title">${data.name}</h5>
           <p class="card-text">ReleaseDate:${data.releaseDate}</p>
           <p class="card-text">Main Features:${data.mainFeatures.chipSet}</p>
