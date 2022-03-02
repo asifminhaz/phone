@@ -39,6 +39,7 @@ const displaySearchResult = phones => {
         console.log(phone);
         const div = document.createElement('div');
         div.classList.add('col');
+
         div.innerHTML = `
         <div class="card h-100">
                 <img src="${phone.image}" class="card-img-top" alt="...">
