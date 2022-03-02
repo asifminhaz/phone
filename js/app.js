@@ -1,16 +1,36 @@
 const searchPhone = () => {
     const searchField = document.getElementById('search-field');
+    const error = document.getElementById("error");
+
     const searchText = searchField.value;
     // console.log(searchText);
 
 
     searchField.value = '';
 
-    const url = ` https://openapi.programming-hero.com/api/phones?search=${searchText}`
-    fetch(url)
-        .then(res => res.json())
-        .then(data => displaySearchResult(data.data));
+
+    if (isNaN(searchText)) {
+        fetch(`https://openapi.programming-hero.com/api/phones?search=${searchText}`)
+            .then(response => response.json())
+            .then(data => errorHandle(data))
+        searchField.value = "";
+        error.innerHTML = "";
+    }
+
 }
+
+const errorHandle = info => {
+    if (info.status == true) {
+        fetch(`https://openapi.programming-hero.com/api/phones?search=${info}`)
+            .then(response => response.json())
+            .then(data => displaySearchResult(info.data))
+    }
+    else if (info.status == false) {
+        error.innerHTML = " no match found with this phone name.";
+        SearchResult.innerHTML = "";
+    }
+}
+
 
 const displaySearchResult = phones => {
     const phone = phones.slice(0, 20)
